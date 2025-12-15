@@ -1,17 +1,30 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
   }, []);
 
+  const handleSubscribe = () => {
+    if (!email) return; // ignore empty submissions
+    setSubscribed(true);
+    setEmail(""); // clear input
+
+    // hide message after 3 seconds
+    setTimeout(() => setSubscribed(false), 3000);
+  };
+
   return (
     <footer
-      className="mt-28"
       style={{
         background:
           "linear-gradient(135deg, #E6F7A6 0%, #FCE3DA 50%, #E6F7A6 100%)",
@@ -30,15 +43,29 @@ export default function Footer() {
         </p>
 
         <div className="flex justify-center">
-          <div className="flex items-center border border-black/40 rounded-full px-6 py-4 bg-[#E6F7A6] w-full max-w-lg">
+          <div className="flex w-full max-w-lg items-center border border-black/40 rounded-full bg-[#E6F7A6] px-4 py-2">
             <input
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
-              className="flex-1 bg-transparent outline-none text-base text-black placeholder:text-black/50 rounded-full transition"
+              className="flex-1 bg-transparent outline-none text-base text-black placeholder:text-black/50 px-4 py-2 rounded-l-full"
             />
-            <span className="ml-4 text-xl text-black">→</span>
+            <button
+              onClick={handleSubscribe}
+              className="cursor-pointer text-xl text-black px-4 py-2 rounded-r-full hover:bg-black/10 transition"
+            >
+              →
+            </button>
           </div>
         </div>
+
+
+        {subscribed && (
+          <p className="mt-4 text-green-600 font-medium">
+            Subscribed successfully!
+          </p>
+        )}
       </div>
 
       {/* MIDDLE SECTION */}
@@ -111,7 +138,7 @@ export default function Footer() {
       </div>
 
       {/* BOTTOM BAR */}
-      <div className="text-center text-sm text-black/60 pb-12" data-aos="fade-up">
+      <div className="text-center text-sm text-black/60 pb-12">
         © {new Date().getFullYear()}, JPS Alliance · Privacy policy
       </div>
     </footer>

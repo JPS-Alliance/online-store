@@ -9,12 +9,17 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@types/styled-components": "^5.1.36",
     "aos": "^2.3.4",
     "framer-motion": "^12.23.26",
     "next": "16.0.10",
     "react": "19.2.1",
+    "react-credit-cards": "^0.8.3",
     "react-dom": "19.2.1",
-    "react-intersection-observer": "^10.0.0"
+    "react-hook-form": "^7.68.0",
+    "react-intersection-observer": "^10.0.0",
+    "react-payment-inputs": "^1.2.0",
+    "styled-components": "^6.1.19"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
