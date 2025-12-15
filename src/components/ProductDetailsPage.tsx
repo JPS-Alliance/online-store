@@ -17,7 +17,7 @@ export default function ProductDetailsPage({ product }: ProductDetailsPageProps)
   const { addToCart } = useAppContext();
 
   const increase = () => setQuantity((q) => Math.min(q + 1, 20));
-  const decrease = () => setQuantity((q) => Math.max(1, q));
+  const decrease = () => setQuantity((q) => Math.max(1, q - 1));
 
   const handleAddToCart = () => {
     addToCart({
