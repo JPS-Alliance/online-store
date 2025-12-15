@@ -5,7 +5,7 @@ import { useAppContext } from "@/context/AppContext";
 import { X } from "lucide-react";
 
 export default function CartPage() {
-  const { cart, removeFromCart } = useAppContext();
+  const { cart, removeFromCart, user } = useAppContext();
   const isEmpty = cart.length === 0;
 
   const total = cart.reduce(
@@ -41,16 +41,19 @@ export default function CartPage() {
               Continue shopping
             </Link>
 
-            <p className="text-black/60 text-sm mt-10">
-              Have an account?{" "}
-              <Link
-                href="/login"
-                className="underline hover:text-black transition"
-              >
-                Log in
-              </Link>{" "}
-              to check out faster.
-            </p>
+            {!user && (
+              <p className="text-black/60 text-sm mt-10">
+                Have an account?{" "}
+                <Link
+                  href="/login"
+                  className="underline hover:text-black transition"
+                >
+                  Log in
+                </Link>{" "}
+                to check out faster.
+              </p>
+            )}
+
           </div>
         ) : (
           /* CART WITH ITEMS */

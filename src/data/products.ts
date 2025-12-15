@@ -70,6 +70,48 @@ const randomInStockHighProbability = () => {
   return rng() < 0.97;
 };
 
+// Shuffle array using seeded RNG
+const shuffle = <T>(array: T[], randomFn: () => number) => {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(randomFn() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+};
+
+// Get today's featured products
+export const getHottest = () => {
+  const seed = stringToSeed(getDateSeed() + "-featured"); // unique seed for featured
+  const rng = seededRandom(seed);
+
+  const shuffled = shuffle(products, rng);
+
+  const [featured, secondary1, secondary2] = shuffled;
+
+  return {
+    featured,
+    secondary: [secondary1, secondary2],
+  };
+};
+
+// Get today's hottest products automatically excluding featured
+export const getFeatured = () => {
+  const { featured, secondary } = getHottest(); // get deterministic featured first
+  const exclude = [featured, ...secondary];
+
+  const seed = stringToSeed(getDateSeed() + "-hot"); // unique seed for hottest
+  const rng = seededRandom(seed);
+
+  const available = products.filter(p => !exclude.includes(p));
+  const shuffled = shuffle(available, rng);
+
+  // Sort by sales descending
+  const sortedBySales = shuffled.sort((a, b) => b.sales - a.sales);
+
+  return sortedBySales.slice(0, 4);
+};
+
 
 const rawProducts: Product[] = [
   {

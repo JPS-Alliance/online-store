@@ -27,8 +27,8 @@ export default function ImageTextSection({
     : 1;
 
   return (
-    <section className="bg-[#EFF3EB] px-10 md:px-20 lg:px-28 py-20">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 items-stretch gap-10">
+    <section className="bg-[#EFF3EB] py-20">
+      <div className="max-w-7xl px-10 md:px-20 lg:px-28 mx-auto grid grid-cols-1 md:grid-cols-2 items-stretch gap-10">
         {/* IMAGE */}
         <div
           ref={imageRef}

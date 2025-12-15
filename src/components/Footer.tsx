@@ -139,7 +139,13 @@ export default function Footer() {
 
       {/* BOTTOM BAR */}
       <div className="text-center text-sm text-black/60 pb-12">
-        © {new Date().getFullYear()}, JPS Alliance · Privacy policy
+        © {new Date().getFullYear()}, JPS Alliance ·{" "}
+        <Link
+          href="/privacy-policy"
+          className="underline hover:text-black transition"
+        >
+          Privacy policy
+        </Link>
       </div>
     </footer>
   );

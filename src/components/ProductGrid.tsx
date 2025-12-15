@@ -13,7 +13,7 @@ export default function ProductGrid({
 }: ProductGridProps) {
   return (
     <section className="bg-[#EFF3EB]">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      <div className="max-w-7xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 place-items-center">
         {loading
           ? Array.from({ length: 8 }).map((_, i) => (
               <ProductCardSkeleton key={i} size="sm" />

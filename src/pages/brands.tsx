@@ -27,6 +27,10 @@ const brands: Brand[] = [
     logo: "/level3_logo.webp",
   },
   {
+    name: "Lily of the Desert",
+    logo: "/lily_of_the_desert.jpeg",
+  },
+  {
     name: "True Skin",
     logo: "/Truskin_logo.webp",
   },

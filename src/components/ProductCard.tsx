@@ -10,27 +10,28 @@ type ProductCardProps = {
 
 const sizeMap = {
   sm: {
-    card: "w-60",
+    card: "w-full",        // Fill the column
     image: "h-48",
     text: "text-sm",
     price: "text-sm",
     padding: "p-4",
   },
   md: {
-    card: "w-64",
-    image: "h-56",
-    text: "text-base",
+    card: "w-full",        // Fill the column
+    image: "h-64",
+    text: "text-lg",
     price: "text-base",
     padding: "p-6",
   },
   lg: {
-    card: "w-80",
-    image: "h-72",
-    text: "text-lg",
-    price: "text-lg",
-    padding: "p-8",
+    card: "w-full h-full", // Same as before
+    image: "h-[26rem] md:h-[32rem] lg:h-[36rem]",
+    text: "text-2xl",
+    price: "text-xl",
+    padding: "p-10",
   },
 };
+
 
 export default function ProductCard({
   product,

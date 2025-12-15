@@ -1,8 +1,9 @@
+import FeaturedProductSection from "@/components/FeaturedProductSection";
 import HeroSection from "@/components/HeroSection";
 import ImageTextSection from "@/components/ImageTextSection";
 import ProductGrid from "@/components/ProductGrid";
 import TestimonialSection from "@/components/TestimonialSection";
-import { products } from "@/data/products";
+import { getFeatured, getHottest, products } from "@/data/products";
 
 
 export default function Home() {
@@ -16,18 +17,23 @@ export default function Home() {
       />
 
       <section className="bg-[#EFF3EB] py-20">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl px-10 md:px-20 lg:px-28 mx-auto">
           <h2 className="text-3xl md:text-4xl font-medium text-black text-left mb-12">
             Featured Products
           </h2>
 
-          <ProductGrid products={products.slice(0, 4)} />
+          <ProductGrid products={getFeatured().slice(0, 4)} />
         </div>
       </section>
 
       <TestimonialSection
         message="Our mission is to deliver high-quality products that nurture your natural beauty and support your everyday wellness."
         author="Founder"
+      />
+      <FeaturedProductSection
+        title="Featured Products"
+        featured={getHottest().featured}
+        secondary={getHottest().secondary}
       />
       <ImageTextSection
         enableZoom
