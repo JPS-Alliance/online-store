@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { JSX, useState } from "react";
 import { products, Product } from "@/data/products";
 import ProductGrid from "@/components/ProductGrid";
 import { useAppContext } from "@/context/AppContext";
@@ -139,9 +139,43 @@ export default function ProductDetailsPage({ product }: ProductDetailsPageProps)
               </p>
             )}
 
-            <div className="text-black/70 leading-relaxed">
-              <p>{product.description}</p>
+            <div className="text-black/70 leading-relaxed space-y-4">
+              {product.description.split("\n").reduce<JSX.Element[]>((acc, line, idx) => {
+                const trimmedLine = line.trim();
+                if (!trimmedLine) return acc;
+
+                if (trimmedLine.startsWith("-")) {
+                  const lastElement = acc[acc.length - 1];
+                  if (!lastElement || lastElement.type !== "ul") {
+                    acc.push(
+                      <ul key={`ul-${idx}`} className="list-disc list-inside ml-4 space-y-1">
+                        <li>{trimmedLine.slice(1).trim()}</li>
+                      </ul>
+                    );
+                  } else {
+                    const ul = lastElement as JSX.Element;
+                    acc[acc.length - 1] = (
+                      <ul key={`ul-${idx}`} className="list-disc list-inside ml-4 space-y-1">
+                        {ul.props.children}
+                        <li>{trimmedLine.slice(1).trim()}</li>
+                      </ul>
+                    );
+                  }
+                } else {
+                  acc.push(
+                    <p key={`p-${idx}`} className="mb-2 font-medium">
+                      {trimmedLine}
+                    </p>
+                  );
+                }
+
+                return acc;
+              }, [])}
             </div>
+
+
+
+
           </div>
         </div>
 

@@ -1,4 +1,6 @@
-import { useState } from "react";
+"use client";
+
+import { useState, useEffect } from "react";
 import ProductGrid from "./ProductGrid";
 import { Product } from "@/data/products";
 
@@ -16,7 +18,27 @@ export default function ProductCollectionSection({
   const [priceMax, setPriceMax] = useState<number | "">("");
   const [sortBy, setSortBy] = useState<string>("featured");
 
-  // Filter products
+  const [loading, setLoading] = useState(true);
+
+  /* ---------------------------------------------
+     Fake loading on mount + when filters change
+  --------------------------------------------- */
+  useEffect(() => {
+    setLoading(true);
+
+    const delay = Math.floor(Math.random() * (600 - 300 + 1)) + 300;
+
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, delay);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+
+  /* ---------------------------------------------
+     Filter products
+  --------------------------------------------- */
   const filteredProducts = products
     .filter((p) => {
       if (availability === "all") return true;
@@ -30,7 +52,9 @@ export default function ProductCollectionSection({
       return p.price >= min && p.price <= max;
     });
 
-  // Sort products
+  /* ---------------------------------------------
+     Sort products
+  --------------------------------------------- */
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     switch (sortBy) {
       case "a-z":
@@ -56,7 +80,7 @@ export default function ProductCollectionSection({
   return (
     <section className="bg-[#EFF3EB] max-w-7xl mx-auto px-10 md:px-20 lg:px-28 py-16">
       {/* Title */}
-      <h2 className="text-4xl md:text-5xl font-medium text-black text-left mb-12">
+      <h2 className="text-4xl md:text-5xl font-medium text-black mb-12">
         {title}
       </h2>
 
@@ -64,8 +88,7 @@ export default function ProductCollectionSection({
       <div className="text-black font-semibold text-lg mb-4">Filters:</div>
 
       {/* Filters */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 space-y-4 md:space-y-0 md:space-x-6">
-        {/* Filter controls */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-6">
         <div className="flex flex-wrap gap-4 items-center">
           {/* Availability */}
           <div className="flex flex-col">
@@ -91,7 +114,9 @@ export default function ProductCollectionSection({
                 type="number"
                 placeholder="Min"
                 value={priceMin}
-                onChange={(e) => setPriceMin(Number(e.target.value))}
+                onChange={(e) =>
+                  setPriceMin(e.target.value === "" ? "" : Number(e.target.value))
+                }
                 className="rounded-lg border border-black/30 px-3 py-2 w-20 text-black focus:ring-2 focus:ring-green-200 focus:outline-none transition"
               />
               <span className="self-center text-black/70">—</span>
@@ -99,13 +124,15 @@ export default function ProductCollectionSection({
                 type="number"
                 placeholder="Max"
                 value={priceMax}
-                onChange={(e) => setPriceMax(Number(e.target.value))}
+                onChange={(e) =>
+                  setPriceMax(e.target.value === "" ? "" : Number(e.target.value))
+                }
                 className="rounded-lg border border-black/30 px-3 py-2 w-20 text-black focus:ring-2 focus:ring-green-200 focus:outline-none transition"
               />
             </div>
           </div>
 
-          {/* Sort By */}
+          {/* Sort */}
           <div className="flex flex-col">
             <label className="font-medium text-black mb-1">Sort by:</label>
             <select
@@ -125,14 +152,14 @@ export default function ProductCollectionSection({
           </div>
         </div>
 
-        {/* Total Products */}
-        <div className="text-black font-medium mt-2 md:mt-0">
-          {sortedProducts.length} products
+        {/* Count */}
+        <div className="text-black font-medium">
+          {loading ? "Loading…" : `${sortedProducts.length} products`}
         </div>
       </div>
 
       {/* Product Grid */}
-      <ProductGrid products={sortedProducts} />
+      <ProductGrid products={sortedProducts} loading={loading} />
     </section>
   );
 }

@@ -2,10 +2,16 @@
 
 import Link from "next/link";
 import { useAppContext } from "@/context/AppContext";
+import { X } from "lucide-react";
 
 export default function CartPage() {
-  const { cart } = useAppContext();
+  const { cart, removeFromCart } = useAppContext();
   const isEmpty = cart.length === 0;
+
+  const total = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   return (
     <section className="bg-[#EFF3EB] py-24">
@@ -24,16 +30,10 @@ export default function CartPage() {
             <Link
               href="/collections/all"
               className="
-                inline-flex
-                items-center
-                justify-center
-                bg-black
-                text-[#ECFEA7]
-                px-6
-                py-3
-                rounded-lg
-                border
-                border-transparent
+                inline-flex items-center justify-center
+                bg-black text-[#ECFEA7]
+                px-6 py-3 rounded-lg
+                border border-transparent
                 hover:border-[#cfe89a]
                 transition
               "
@@ -74,14 +74,38 @@ export default function CartPage() {
               {cart.map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-center justify-between border-b border-black/10 pb-4"
+                  className="
+                    flex items-center justify-between
+                    border-b border-black/10 pb-4
+                    gap-6
+                  "
                 >
-                  <div>
-                    <h3 className="font-medium text-black">{item.name}</h3>
-                    <p className="text-black/60 text-sm">Qty: {item.quantity}</p>
+                  {/* Left */}
+                  <div className="flex flex-col">
+                    <h3 className="font-medium text-black">
+                      {item.name}
+                    </h3>
+                    <p className="text-black/60 text-sm">
+                      Qty: {item.quantity}
+                    </p>
+
+                    {/* Remove */}
+                    <button
+                      onClick={() => removeFromCart(item.id)}
+                      className="
+                        mt-2 inline-flex items-center gap-1
+                        text-sm text-black/50
+                        hover:text-black
+                        transition
+                      "
+                    >
+                      <X size={14} />
+                      Remove
+                    </button>
                   </div>
 
-                  <div className="text-black font-medium">
+                  {/* Right */}
+                  <div className="text-black font-medium whitespace-nowrap">
                     ${(item.price * item.quantity).toFixed(2)} CAD
                   </div>
                 </div>
@@ -89,12 +113,11 @@ export default function CartPage() {
             </div>
 
             {/* Total */}
-            <div className="flex justify-end mt-8 text-black font-semibold text-lg">
-              Total: $
-              {cart
-                .reduce((sum, item) => sum + item.price * item.quantity, 0)
-                .toFixed(2)}{" "}
-              CAD
+            <div className="flex justify-between items-center mt-10 text-black">
+              <span className="text-lg font-medium">Subtotal</span>
+              <span className="text-lg font-semibold">
+                ${total.toFixed(2)} CAD
+              </span>
             </div>
 
             {/* Checkout button */}
@@ -104,8 +127,7 @@ export default function CartPage() {
                 mt-6
                 bg-black
                 text-[#ECFEA7]
-                px-6
-                py-3
+                px-6 py-3
                 rounded-lg
                 font-medium
                 w-full

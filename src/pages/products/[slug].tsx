@@ -6,7 +6,7 @@ export default function ProductPage() {
   const router = useRouter();
   const { slug } = router.query;
 
-  if (!slug) return null; // Waiting for router to load
+  if (!slug) return null;
 
   const product = products.find((p) => p.id === slug);
 
